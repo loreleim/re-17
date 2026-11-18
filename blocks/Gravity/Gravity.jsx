@@ -2,7 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const MAX_ASSETS = 17;
 
@@ -68,6 +71,30 @@ function selectAssets(assets) {
   );
 }
 
+const reunionLinks = [
+  {
+    title: "Buy Tickets",
+    description: "May 29th, 2027",
+    status: "Coming Soon",
+    url: null,
+    external: false,
+  },
+  {
+    title: "Merch Store",
+    description: "Official Reunion Merchandise",
+    status: "Visit Store",
+    url: "https://shop.the2017class.com",
+    external: true,
+  },
+  {
+    title: "Instagram",
+    description: "Follow the reunion updates",
+    status: "Follow Us",
+    url: "https://www.instagram.com/the2017class/",
+    external: true,
+  },
+];
+
 
 export default function Gravity({
   assets = [],
@@ -75,6 +102,7 @@ export default function Gravity({
 
   const fieldRef = useRef(null);
   const introRef = useRef(null);
+  const linksRef = useRef(null);
 
 
   useEffect(() => {
@@ -112,7 +140,7 @@ export default function Gravity({
 
         const image = document.createElement('img');
 
-        image.className = 'block h-auto w-auto max-h-[150px] max-w-[150px] object-contain select-none';
+        image.className = 'block h-auto w-auto max-h-[80px] max-w-[80px] object-contain select-none';
 
         image.src = src;
 
@@ -1615,18 +1643,134 @@ export default function Gravity({
     return () => ctx.revert();
   }, []);
 
+  /* linksys */
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      gsap.fromTo(
+        ".resource-link",
+        {
+          y: 35,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: linksRef.current,
+            start: "top 75%",
+            once: true,
+          },
+        }
+      );
+
+    }, linksRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
 
     <section className="relative h-screen min-h-[700px] overflow-hidden">
 
-      <div ref={introRef} className="absolute inset-0 flex flex-col items-center justify-center">
-        <Image src="/assets/svgs/g-solid.svg" alt="g logo" height={100} width={100} className='intro-logo' />
-        <h1 className='intro-date mt-3 font-panchang font-bold uppercase text-4xl lg:text-6xl [color:var(--background)] [paint-order:stroke_fill] [-webkit-text-stroke:2px_white]'>May.29.2027</h1>
-        <span className='intro-message font-mono text-[14px] italic'>also the 30th get something too lols</span>
-      </div>
+      <section
+        ref={linksRef}
+        className="relative flex min-h-screen flex-col justify-center px-6 py-32 z-40 sm:px-8 lg:px-12"
+      >
+        <div className="mx-auto w-full max-w-[900px]">
 
-      <div className="absolute left-0 top-0 z-20 w-full p-6 sm:p-8 lg:p-12">
+          {/* Header */}
+          <div className="resource-link mb-12">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] opacity-50">
+              MHS '17 / INFORMATION
+            </span>
+
+            <h2 className="mt-4 font-panchang text-2xl font-bold uppercase sm:text-4xl">
+              The Reunion
+            </h2>
+          </div>
+
+          {/* Link List */}
+          <div className="flex flex-col gap-3">
+
+            {reunionLinks.map((link, index) => {
+
+              const content = (
+                <>
+                  <div className="flex min-w-0 flex-col gap-2">
+                    <h3 className="font-panchang text-sm uppercase sm:text-base">
+                      {link.title}
+                    </h3>
+
+                    <p className="font-mono text-[10px] uppercase tracking-wider opacity-50">
+                      {link.description}
+                    </p>
+                  </div>
+
+                  <div className="flex shrink-0 items-center gap-3">
+                    <span className="font-mono text-[9px] uppercase tracking-widest opacity-50">
+                      {link.status}
+                    </span>
+
+                    {link.url && (
+                      <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
+                        →
+                      </span>
+                    )}
+                  </div>
+                </>
+              );
+
+              const className = `
+                resource-link group flex w-full items-center justify-between gap-4
+                rounded-2xl border border-white/20
+                bg-white/[0.03] px-5 py-6 sm:px-7
+                cursor-pointer
+                transition-all duration-300 ease-out
+                hover:border-white/60
+                hover:bg-white/[0.10]
+                hover:-translate-y-1
+                hover:shadow-lg
+                active:scale-[0.99]
+              `;
+
+              return link.url ? (
+                <a
+                  key={index}
+                  href={link.url}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  className={className}
+                >
+                  {content}
+                </a>
+              ) : (
+                <div
+                  key={index}
+                  className={`${className} cursor-default`}
+                >
+                  {content}
+                </div>
+              );
+
+            })}
+
+          </div>
+
+          {/* Footer */}
+          <div className="resource-link mt-8 flex justify-between font-mono text-[9px] uppercase tracking-widest opacity-40">
+            <span>Mililani High School</span>
+            <span>Class of 2017</span>
+          </div>
+
+        </div>
+      </section>
+
+
+      <div className="absolute left-0 top-0 z-0 w-full p-6 sm:p-8 lg:p-12">
 
         <div className="mx-auto flex max-w-[1600px] items-start justify-between gap-8">
 
