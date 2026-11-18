@@ -81,14 +81,14 @@ const reunionLinks = [
   },
   {
     title: "Merch Store",
-    description: "Official Reunion Merchandise",
+    description: "Official Reunion Merch",
     status: "Visit Store",
     url: "https://shop.the2017class.com",
     external: true,
   },
   {
     title: "Instagram",
-    description: "Follow the reunion updates",
+    description: "Follow for reunion updates",
     status: "Follow Us",
     url: "https://www.instagram.com/the2017class/",
     external: true,
@@ -140,7 +140,7 @@ export default function Gravity({
 
         const image = document.createElement('img');
 
-        image.className = 'block h-auto w-auto max-h-[80px] max-w-[80px] object-contain select-none';
+        image.className = 'block h-auto w-auto max-h-[80px] max-w-[80px] lg:max-h-[120px] lg:max-w-[120px] object-contain select-none';
 
         image.src = src;
 
@@ -1608,41 +1608,6 @@ export default function Gravity({
 
   }, [assets]);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-
-      tl.from(".intro-logo", {
-        scale: 0,
-        opacity: 0,
-        duration: 0.8,
-        ease: "back.out(1.7)",
-      })
-        .from(
-          ".intro-date",
-          {
-            y: 30,
-            opacity: 0,
-            duration: 0.7,
-            ease: "power3.out",
-          },
-          "-=0.4"
-        )
-        .from(
-          ".intro-message",
-          {
-            y: 30,
-            opacity: 0,
-            duration: 0.7,
-            ease: "power3.out",
-          },
-          "+=0.1"
-        );
-    }, introRef);
-
-    return () => ctx.revert();
-  }, []);
-
   /* linksys */
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -1678,18 +1643,18 @@ export default function Gravity({
 
       <section
         ref={linksRef}
-        className="relative flex min-h-screen flex-col justify-center px-6 py-32 z-40 sm:px-8 lg:px-12"
+        className="relative flex flex-col px-6 pt-25 z-40 sm:px-8 lg:px-12"
       >
         <div className="mx-auto w-full max-w-[900px]">
 
           {/* Header */}
           <div className="resource-link mb-12">
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] opacity-50">
-              MHS '17 / INFORMATION
+              MHS '17 / Information
             </span>
 
             <h2 className="mt-4 font-panchang text-2xl font-bold uppercase sm:text-4xl">
-              The Reunion
+              10 Year Reunion
             </h2>
           </div>
 
@@ -1763,7 +1728,7 @@ export default function Gravity({
           {/* Footer */}
           <div className="resource-link mt-8 flex justify-between font-mono text-[9px] uppercase tracking-widest opacity-40">
             <span>Mililani High School</span>
-            <span>Class of 2017</span>
+            <span>Last Updated: 18 November 2026</span>
           </div>
 
         </div>
@@ -1775,7 +1740,7 @@ export default function Gravity({
         <div className="mx-auto flex max-w-[1600px] items-start justify-between gap-8">
 
           <div className="pointer-events-auto flex flex-row items-center justify-center gap-[10px]">
-            <a href="https://dev-mililani-reunion.myshopify.com" target="_blank" rel="noopener noreferrer" className="group relative flex items-center gap-[10px]">
+            <a href="https://shop.the2017class.com" target="_blank" rel="noopener noreferrer" className="group relative flex items-center gap-[10px]">
 
               <Image src="/assets/svgs/globe.svg" alt="globe icon" height={25} width={25} />
 
